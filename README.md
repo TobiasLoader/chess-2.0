@@ -1,1 +1,1 @@
-# MT22-CS-group-design-practical
+# chess 2.0
