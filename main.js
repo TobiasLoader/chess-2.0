@@ -85,6 +85,19 @@ function flatdraw() {
 
   board.draw();
 
+  textAlign(CENTER);
+  if (pieceselected==null) fill(255,255,255,100);
+  else fill(255,255,255,150);
+  textFont("Tahoma",20)
+  if (turn%2==0) {
+    if (pieceselected==null) text("choose a white piece",0,-300);
+    else text("make a move as white",0,-300);
+  }
+  else {
+    if (pieceselected==null) text("choose a black piece",0,-300);
+    else text("make a move as black",0,-300);
+  }
+
   // if (turn%2==0 && animation.isempty() && !whiteking.captured) whiteking.drawvalidmoves();
   // if (turn%2==1 && animation.isempty() && !blacksuperman.captured) blacksuperman.drawvalidmoves();
   drawpieces();
@@ -104,6 +117,9 @@ function draw(){
   }
 }
 
+function isPiecePlayable(p){
+  return p!=null && p.player==1+turn%2 && !p.captured && !p.currentani;
+}
 
 window.onresize = function() {
   resizeCanvas(windowWidth, windowHeight);
@@ -115,11 +131,10 @@ window.onresize = function() {
 mouseClicked = function(){
   if (pieceselected==null){
     let p = findpiece(pixtoboardx(),pixtoboardy())
-    if (p!=null && p.player==1+turn%2 && !p.captured && !p.currentani){
-      board.draw();
-      p.drawvalidmoves();
-      drawpieces();
+    if (isPiecePlayable(p)){
       pieceselected = p;
+      loop();
+      p.drawvalidmoves();
     }
   } else{
     board.draw();
@@ -142,5 +157,4 @@ mouseClicked = function(){
   //     loop();
   //   }
   // }
-
 }
